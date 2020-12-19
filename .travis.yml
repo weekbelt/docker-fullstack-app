@@ -9,15 +9,15 @@ before_install:
   - docker build -t weekbelt/react-test-app -f ./frontend/Dockerfile.dev ./frontend
 
 script:
-  - docker run -e CI=true weekbelt/react-test-app npm run test
+  - docker run -e CI=true smileajw1004/react-test-app npm test
 
 after_success:
   - docker build -t weekbelt/docker-frontend ./frontend
-  - docker build -t weekbelt/docker-backend  ./backend
-  - docker build -t weekbelt/docker-nginx    ./nginx
+  - docker build -t weekbelt/docker-backend ./backend
+  - docker build -t weekbelt/docker-nginx ./nginx
 
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
   - docker push weekbelt/docker-frontend
   - docker push weekbelt/docker-backend
-  - docker push weekbelt/nginx
+  - docker push weekbelt/docker-nginx
